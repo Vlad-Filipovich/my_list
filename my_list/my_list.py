@@ -104,3 +104,14 @@ class List:
         sorted_items = quick_sort(items_list)
         for index in range(self.size):
             self.get_node_by_index(index).item = sorted_items[index]
+
+
+my_list = List()
+my_list.add(43)
+my_list.add(22)
+my_list.add(11)
+my_list.add(1003)
+my_list.add(456)
+my_list.print()
+my_list.sort()
+my_list.print()
