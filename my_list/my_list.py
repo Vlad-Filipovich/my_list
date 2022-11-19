@@ -2,7 +2,6 @@ class Node:
     def __init__(self, data):
         self.item = data
         self.next_item = None
-        self.index = None
 
 
 class List:
@@ -10,10 +9,6 @@ class List:
 
     def __init__(self):
         self.start_node = Node(None)
-
-    def new_index(self, node):
-        node.index = self.size
-        self.size += 1
 
     def is_empty(self):
         return self.size == 0
@@ -27,15 +22,23 @@ class List:
             while current_node.next_item is not None:
                 current_node = current_node.next_item
             current_node.next_item = new_node
-        self.new_index(new_node)
+        self.size += 1
 
     def get(self, element_index):
         if element_index > self.size - 1:
             raise NameError('index out of range')
         current_node = self.start_node
-        while current_node.index != element_index:
+        for index in range(element_index):
             current_node = current_node.next_item
         return current_node.item
+
+    def get_node_by_index(self, element_index):
+        if element_index > self.size - 1:
+            raise NameError('index out of range')
+        current_node = self.start_node
+        for index in range(element_index):
+            current_node = current_node.next_item
+        return current_node
 
     def print(self):
         if self.size == 0:
@@ -56,14 +59,6 @@ class List:
             current_element = current_node.next_item
         return current_node.item == data
 
-    def get_node_by_index(self, element_index):
-        if element_index > self.size - 1:
-            raise NameError('index out of range')
-        current_node = self.start_node
-        while current_node.index != element_index:
-            current_node = current_node.next_item
-        return current_node
-
     def delete_by_index(self, element_index):
         if element_index == 0:  # delete first element from the list
             if self.size - 1:
@@ -83,9 +78,6 @@ class List:
             current_node = self.get_node_by_index(element_index - 1)
             current_node.next_item = self.get_node_by_index(element_index + 1)
 
-        while current_node.next_item is not None:  # change all the index
-            current_node.next_item.index -= 1
-            current_node = current_node.next_item
         self.size -= 1
 
     def sort(self):
@@ -113,5 +105,7 @@ my_list.add(11)
 my_list.add(1003)
 my_list.add(456)
 my_list.print()
+my_list.delete_by_index(3)
 my_list.sort()
+print(my_list.get_node_by_index(3))
 my_list.print()
